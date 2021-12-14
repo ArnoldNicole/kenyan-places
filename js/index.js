@@ -1,5 +1,8 @@
 const locationsDiv = document.getElementById('locations');
 const select = document.getElementById('county');
+const subcounty = document.getElementById('subcounty');
+const ward = document.getElementById('ward');
+
 let url = 'https://raosys.com/js/kenyan_county_sub_county_ward.json';
 const xhr = new XMLHttpRequest();
 var locationsData = {
@@ -15,20 +18,10 @@ getData(url);
 select.addEventListener('change', function (e) {
     let i = locationsData.counties.findIndex(county => county.id == e.target.value)
     if (i != -1) {
-        const c_id = document.getElementById('subcounty_select');
-        if (c_id == null) {
-            subcount_select = document.createElement('select');
-            subcount_select.id = "subcounty_select";
-            addOptions(locationsData.counties[i], subcount_select);
-            locationsDiv.appendChild(subcount_select);
-        } else {
-            // clear all child nodes
-            while (c_id.firstChild) {
-                c_id.removeChild(c_id.firstChild);
-            }
-            addOptions(locationsData.counties[i], c_id);
+        while (subcounty.firstChild) {
+            subcounty.removeChild(subcounty.firstChild);
         }
-        // // display box to select sub counties
+        addOptions(locationsData.counties[i], subcounty)
 
     }
 })
@@ -58,6 +51,7 @@ function addOptions(county, select) {
             opt.text = `${subcounty.name}`;
             opt.value = `${subcounty.id}`
             select.appendChild(opt);
+            select.style.display = ""
         }
     });
 
